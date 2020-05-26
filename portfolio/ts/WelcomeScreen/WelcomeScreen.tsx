@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /**
  * @providesModule WelcomeScreen
  * @flow
@@ -12,7 +13,12 @@ export default class WelcomeScreen extends React.Component {
   render(): React.ReactElement {
     return (
       <View style={styles.container}>
-        <Text>Hello</Text>
+        <Text style={styles.textStyleHeading}>
+          Hello
+        </Text>
+        <Text style={styles.textStyleSubHeading}>
+          Hello this is the subtitle text that I will be putting in here
+        </Text>
       </View>
     );
   }
