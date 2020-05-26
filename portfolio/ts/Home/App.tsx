@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -8,7 +7,6 @@
  */
 
 import React from 'react';
-import WelcomeScreen from '../WelcomeScreen/WelcomeScreen';
 
 import {
   SafeAreaView,
@@ -51,12 +49,6 @@ export default class App extends React.Component {
                   <ReloadInstructions />
                 </Text>
               </View>
-
-              <View>
-                <WelcomeScreen name="World"
-                               enthusiasmLevel={1} />
-              </View>
-
               <View style={styles.sectionContainer}>
                 <Text style={styles.sectionTitle}>Debug</Text>
                 <Text style={styles.sectionDescription}>
