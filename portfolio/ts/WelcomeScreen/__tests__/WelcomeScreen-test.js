@@ -5,9 +5,7 @@ import WelcomeScreen from '../WelcomeScreen';
 
 describe('Rendering basic demo screen', () => {
   it('renders correctly', () => {
-    const screen = renderer.create(
-      <WelcomeScreen name={'World'} enthusiasmLevel={1} />,
-    );
+    const screen = renderer.create(<WelcomeScreen />);
 
     expect(screen.toJSON()).toMatchSnapshot();
   });
