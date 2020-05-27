@@ -26,7 +26,7 @@ export default StyleSheet.create({
   },
 
   headerContainer: {
-    flex: 0.45,
+    flex: 0.5,
     width: 300,
   },
 
@@ -34,6 +34,7 @@ export default StyleSheet.create({
     fontSize: 38,
     fontWeight: '600',
     textAlign: 'center',
+    padding: 10,
   },
 
   titleText: {
@@ -56,6 +57,7 @@ export default StyleSheet.create({
 
   usernameTextStyle: {
     borderWidth: 1,
+    borderColor: '#454E59',
     padding: 8,
     width: 300,
     fontSize: 16,
