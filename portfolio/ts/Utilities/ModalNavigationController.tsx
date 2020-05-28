@@ -37,7 +37,6 @@ export default class ModalNavigationController extends React.Component<{}, State
 
     MODAL_CHANGE_TIME = 150;
     modalNavInstance = this;
-
   }
 
   static isModalShown(): boolean {
