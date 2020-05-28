@@ -23,7 +23,7 @@ interface State {
 }
 
 let modalNavInstance: ModalNavigationController;
-let MODAL_CHANGE_TIME: number;
+let MODAL_CHANGE_TIME: number = 150;
 
 export default class ModalNavigationController extends React.Component<{}, State> {
 
@@ -35,7 +35,6 @@ export default class ModalNavigationController extends React.Component<{}, State
       components: <View/>,
     };
 
-    MODAL_CHANGE_TIME = 150;
     modalNavInstance = this;
   }
 
