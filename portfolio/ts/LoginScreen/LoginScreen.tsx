@@ -6,6 +6,8 @@
 
 import React from 'react';
 import styles from './LoginScreenStyle';
+import ModalNavigationController from '../Utilities/ModalNavigationController';
+import Modal from 'react-native-modal';
 
 import {
   View,
@@ -14,6 +16,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Keyboard,
+  // Modal,
 } from 'react-native';
 
 interface State {
@@ -35,9 +38,56 @@ export default class LoginScreen extends React.Component<{}, State> {
       //  TODO 1. Get the data and populate the other screens if it exists.
       //  TODO 2. Show a modal saying that the candidate doesn't exists
       //  "Sorry, such a candidate hasn't registered with us, yet..."
+      const displayProps = {
+        animationType: 'fade',
+        transparent: true,
+      };
+
+      const modal = (
+        <View>
+          {/* <Modal  isVisible={true}> */}
+            <View style={{flex: 1}}>
+              <Text>
+                I am a modal
+              </Text>
+              <Button title={'This is a button'}
+                      onPress={() => {
+                        ModalNavigationController.hideModal();
+                      }}
+                      color={'#0F0403'}/>
+            </View>
+          {/* </Modal> */}
+        </View>
+      );
+      ModalNavigationController.showModal(modal, displayProps);
+      console.log('hello');
     } else {
+      const displayProps = {
+        animationType: 'fade',
+        transparent: true,
+      };
+
+      const modal = (
+        <View>
+          <Modal  isVisible={true}>
+            <View style={{flex: 1}}>
+              <Text>
+                I am a modal
+              </Text>
+              <Button title={'This is a button'}
+                      onPress={() => {
+                        ModalNavigationController.hideModal();
+                      }}
+                      color={'#0F0403'}/>
+            </View>
+          </Modal>
+        </View>
+      );
       // TODO Show a modal saying that the username entered is invalid
       // "The username entered is invalid. Please check again."
+
+      ModalNavigationController.showModal(modal, displayProps);
+
     }
     setTimeout(() => {
       Keyboard.dismiss();
