@@ -1,8 +1,130 @@
 [
   {
-    "work_id": "",
+    "work_id": 0,
     "experience": {
-      "id": "",
+      "id": 0,
+      "job_title": "",
+      "employment_type": "",
+      "company": "",
+      "location": {
+        "state": "",
+        "country": ""
+      },
+      "start_date": "",
+      "end_date": "",
+      "job_headLine": "",
+      "job_description": "",
+      "isWorking": true
+    }
+  },
+  {
+    "work_id": 1,
+    "experience": {
+      "id": 0,
+      "job_title": "",
+      "employment_type": "",
+      "company": "",
+      "location": {
+        "state": "",
+        "country": ""
+      },
+      "start_date": "",
+      "end_date": "",
+      "job_headLine": "",
+      "job_description": "",
+      "isWorking": true
+    }
+  },
+  {
+    "work_id": 2,
+    "experience": {
+      "id": 0,
+      "job_title": "",
+      "employment_type": "",
+      "company": "",
+      "location": {
+        "state": "",
+        "country": ""
+      },
+      "start_date": "",
+      "end_date": "",
+      "job_headLine": "",
+      "job_description": "",
+      "isWorking": true
+    }
+  },
+  {
+    "work_id": 3,
+    "experience": [
+      {
+        "id": 0,
+        "job_title": "",
+        "employment_type": "",
+        "company": "",
+        "location": {
+          "state": "",
+          "country": ""
+        },
+        "start_date": "",
+        "end_date": "",
+        "job_headLine": "",
+        "job_description": "",
+        "isWorking": true
+      },
+      {
+        "id": 1,
+        "job_title": "",
+        "employment_type": "",
+        "company": "",
+        "location": {
+          "state": "",
+          "country": ""
+        },
+        "start_date": "",
+        "end_date": "",
+        "job_headLine": "",
+        "job_description": "",
+        "isWorking": true
+      },
+      {
+        "id": 2,
+        "job_title": "",
+        "employment_type": "",
+        "company": "",
+        "location": {
+          "state": "",
+          "country": ""
+        },
+        "start_date": "",
+        "end_date": "",
+        "job_headLine": "",
+        "job_description": "",
+        "isWorking": true
+      }
+    ]
+  },
+  {
+    "work_id": 4,
+    "experience": {
+      "id": 0,
+      "job_title": "",
+      "employment_type": "",
+      "company": "",
+      "location": {
+        "state": "",
+        "country": ""
+      },
+      "start_date": "",
+      "end_date": "",
+      "job_headLine": "",
+      "job_description": "",
+      "isWorking": true
+    }
+  },
+  {
+    "work_id": 5,
+    "experience": {
+      "id": 0,
       "job_title": "",
       "employment_type": "",
       "company": "",
