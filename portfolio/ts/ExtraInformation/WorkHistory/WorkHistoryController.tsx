@@ -13,22 +13,27 @@ import * as data from '../../DataFiles/workHistoryData.json';
 
 class WorkHistoryController {
 
-  jobs: Array<Experience>;
+  experience: Array<Experience>;
   workHistoryData: Array<WorkHistory>;
 
   // TODO get all the data from the API call for the work history and
   // pass it in the work history component screen for it to be printed.
   constructor() {
-    this.jobs = [];
-    this.workHistoryData = [];
+    this.experience = [];
+    this.workHistoryData = data;
   }
 
-  getJobs(workId: number) {
-
+  getExperience(workId: number): Array<Experience> | null {
+    for (var i = 0; i < this.workHistoryData.length; i++) {
+      if (this.workHistoryData[i].workHistoryID === workId) {
+        return this.workHistoryData[i].workExp;
+      }
+    }
+    return null;
   }
 
-  showJobs(): Array<WorkHistory> {
-    return [];
+  showWorkHistory(): Array<WorkHistory> {
+    return this.workHistoryData;
   }
 
 }
