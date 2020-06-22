@@ -20,7 +20,7 @@ exports[`Rendering basic demo screen renders correctly 1`] = `
   <View
     style={
       Object {
-        "flex": 0.45,
+        "flex": 0.5,
         "width": 300,
       }
     }
@@ -30,6 +30,7 @@ exports[`Rendering basic demo screen renders correctly 1`] = `
         Object {
           "fontSize": 38,
           "fontWeight": "600",
+          "padding": 10,
           "textAlign": "center",
         }
       }
@@ -62,6 +63,7 @@ exports[`Rendering basic demo screen renders correctly 1`] = `
       rejectResponderTermination={true}
       style={
         Object {
+          "borderColor": "#454E59",
           "borderWidth": 1,
           "fontSize": 16,
           "padding": 8,
