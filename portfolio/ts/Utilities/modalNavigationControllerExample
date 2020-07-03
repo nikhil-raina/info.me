@@ -1,0 +1,152 @@
+/*
+ * @providesModule ModalNavigationController
+ * @flow
+ *
+ */
+
+import React from 'react';
+import _ from 'lodash';
+import GlobalEventEmitter from 'GlobalEventEmitter';
+import LoadingIndicator from 'LoadingIndicator';
+import Sizes from 'Sizes';
+
+import {
+  Modal,
+  StyleSheet,
+  View
+} from 'react-native';
+
+const SAFE_MODAL_CHANGE_TIME = 300;
+let modalNavigationControllerInstance = null;
+
+export default class ModalNavigationController extends React.Component {
+
+  modalBackHandler: (void) => boolean;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+      modalProps: {},
+      modalComponent: null,
+    };
+
+    modalNavigationControllerInstance = this;
+  }
+
+  static isModalShown(): boolean {
+    if (modalNavigationControllerInstance) {
+      return modalNavigationControllerInstance.state.modalVisible;
+    }
+
+    return false;
+  }
+
+  static pauseModalForDisplay() {
+    if (modalNavigationControllerInstance) {
+      modalNavigationControllerInstance._pauseModalForDisplay();
+    }
+  }
+
+  _pauseModalForDisplay() {
+    if (this.state.modalVisible && this.state.modalComponent) {
+      this.setState({ modalVisible: false });
+    }
+  }
+
+  static unpauseModalForDisplay() {
+    if (modalNavigationControllerInstance) {
+      modalNavigationControllerInstance._unpauseModalForDisplay();
+    }
+  }
+
+  _unpauseModalForDisplay() {
+    if (!this.state.modalVisible && this.state.modalComponent) {
+      this.setState({ modalVisible: true });
+    }
+  }
+
+  /*** Show Modal ***/
+
+  // Default props: {animationType: "fade", transparent: true}
+  static showModal(modalComponent: React.Element<*>, props: ?Object) {
+    if (modalNavigationControllerInstance) {
+      props = props || {animationType: "fade", transparent: true}; // default to the most common props we use
+      modalNavigationControllerInstance._showModal(modalComponent, props);
+    }
+  }
+
+  _showModal(modalComponent: React.Element<*>, props: Object = {}) {
+    // LoadingIndicator uses an Animated.View, and this seems to interact poorly with
+    // the React Modal component, if they're both changing state simultaneously.
+    // The result is that the entire UI becomes untappable because one or the other isn't removed.
+    // This forces the LoadingIndicator to stay shown while the modal is shown.
+    this.modalBackHandler = props.modalBackHandler;
+    GlobalEventEmitter.emit('suspendHomeScreenState', {shouldNotUpdateCompletedMatchState: true, shouldSuspend: false});
+
+    ModalNavigationController.hideModal();
+    LoadingIndicator.showInvisible();
+    setTimeout(() => {
+      const modalProps = {
+        animationType: 'slide',
+        transparent: 'true', ...props
+      };
+      this.setState({
+        modalVisible: true,
+        modalProps: modalProps,
+        modalComponent: modalComponent
+      });
+    }, SAFE_MODAL_CHANGE_TIME);
+  }
+
+  static setModalBackHandler(handler:(void)=>boolean) {
+    if (modalNavigationControllerInstance) {
+      modalNavigationControllerInstance.modalBackHandler = handler;
+    }
+  }
+
+  static hideModal(completion: () => {}) {
+    if (modalNavigationControllerInstance) {
+      modalNavigationControllerInstance._hideModal(completion);
+    }
+  }
+
+  _hideModal(completion: () => {}) {
+    // LoadingIndicator uses an Animated.View, and this seems to interact poorly with
+    // the React Modal component, if they're both changing state simultaneously.
+    // The result is that the entire UI becomes untappable because one or the other isn't removed.
+    // This forces the LoadingIndicator to stay shown until the modal is dismissed.
+    LoadingIndicator.hide();
+    this.setState({ modalVisible: false, modalProps: {}, modalComponent: null}, () => {
+      if (completion) {
+        completion();
+      }
+    });
+  }
+
+  handleModalCloseRequest() {
+    let shouldClose = true;
+    if (this.modalBackHandler) {
+      shouldClose = this.modalBackHandler();
+    }
+
+    if (shouldClose) {
+      this.modalBackHandler = null;
+      LoadingIndicator.hide();
+      _.get(this, "state.modalProps.onRequestClose",
+        this.setState({modalVisible: false, modalProps: {}, modalComponent: null}));
+    }
+  }
+
+  render(): React.Element<*> {
+    return (
+      <Modal {...this.state.modalProps}
+             onRequestClose={this.handleModalCloseRequest.bind(this)}
+             visible={this.state.modalVisible && !this.state.isWelcomeBackVisible}>
+        <View style={StyleSheet.absoluteFill} width={Sizes.screenWidth} height={Sizes.screenHeight}>
+          {this.state.modalComponent}
+        </View>
+      </Modal>
+    );
+  }
+}

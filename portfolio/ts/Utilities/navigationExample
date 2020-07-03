@@ -1,0 +1,256 @@
+/*
+ * @providesModule NavigationManager
+ * @flow
+ *
+ */
+import React from 'react';
+
+import _ from 'lodash';
+import ClientPropertyConstants from 'ClientPropertyConstants';
+import ModalNavigationController from 'ModalNavigationController';
+import NativeNavigation from 'NativeNavigation';
+import {Navigator} from 'react-native-deprecated-custom-components';
+import SKZConstants from 'SKZConstants';
+
+import {
+  NativeModules,
+  Platform,
+} from 'react-native';
+
+interface ISkillzSDK {
+  popNavigator: ()=>void;
+  popNavigatorToRoot:()=>void;
+  popEverythingToRoot:()=>void;
+  skillzCanExit:()=>boolean;
+  isSideMenuEnabled:()=>boolean;
+  enableSideMenu: ()=>void;
+  disableSideMenu:()=>void;
+  openSideMenu:()=>void;
+  closeSideMenu:()=>void;
+  getRouteLength:()=>number;
+  displayTicketz:(prize: number)=>void;
+  displayTrophyHome:()=>void;
+  getNavigator:()=>(Navigator|null);
+  pushComponentWithScene:(component: {}, animated: boolean, scene: string, enableGestures: boolean, sceneTransition: {})=>void;
+  replaceComponent:(component: {}, scene: string)=>void;
+  pushSceneWithHomeAsRoot:(scene:{})=>void;
+}
+
+const SKZReactVCManager = NativeModules.SKZReactViewControllerManager;
+const SkillzModule = NativeModules.SkillzModule;
+
+const TICKETZ = 'Ticketz';
+const TROPHY_HOME = 'TrophyHome';
+
+class NavigationManager  {
+  AbsoluteFill = {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    position: 'absolute',
+  };
+
+  HideScene = {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    position: 'absolute',
+    opacity: 0,
+  };
+
+  delegate: ISkillzSDK|null = null;
+
+  setDelegate(skillzDelegate: ISkillzSDK) {
+    this.delegate = skillzDelegate;
+  }
+
+  popNavigator() {
+    this.delegate?.popNavigator();
+  }
+
+  popNavigatorToRoot() {
+    this.delegate?.popNavigatorToRoot();
+  }
+
+  popEverythingToRoot() {
+    this.delegate?.popEverythingToRoot();
+  }
+
+  skillzCanExit() {
+    return this.delegate?.skillzCanExit() ?? false;
+  }
+  
+  isSideMenuEnabled() {
+    return this.delegate?.isSideMenuEnabled() ?? false;
+  }
+
+  enableSideMenu() {
+    this.delegate?.enableSideMenu();
+  }
+
+  disableSideMenu() {
+    this.delegate?.disableSideMenu();
+  }
+
+  openSideMenu() {
+    this.delegate?.openSideMenu();
+  }
+
+  closeSideMenu() {
+    this.delegate?.closeSideMenu();
+  }
+
+  getRouteLength() {
+    return this.delegate?.getRouteLength() ?? 0;
+  }
+  
+  push(component: React.Component<any>, options: {}, animated: boolean = true,
+       enableGestures: boolean = false, sceneTransition: Navigator.SceneConfigs = Navigator.SceneConfigs.HorizontalSwipeJump) {
+    if (options && options.scene) {
+      this.pushComponentWithScene(component, animated, options.scene, enableGestures, sceneTransition);
+    } else {
+      this.pushComponentWithScene(component, animated, '', enableGestures, sceneTransition);
+    }
+  }
+  
+  pushComponentWithScene(component: {}, animated: boolean = true, scene: string = '', enableGestures: boolean = false, 
+    sceneTransition: Navigator.SceneConfigs = Navigator.SceneConfigs.HorizontalSwipeJump) {
+    this.delegate?.pushComponentWithScene(component, animated, scene, enableGestures, sceneTransition);
+  }
+
+  pushSceneWithHomeAsRoot(scene:{}) {
+    this.delegate?.pushSceneWithHomeAsRoot(scene);
+  }
+
+  replaceComponent(component: React.Component, scene: string) {
+     this.delegate?.replaceComponent(component, scene);
+  }
+
+  replace(component: React.Component, options: {}) {
+    this.replaceComponent(component, options.scene);
+  }
+
+  hideModal() {
+    ModalNavigationController.hideModal();
+  }
+
+  pop() {
+    this.popNavigator();
+  }
+
+  popToRoot() {
+    this.popNavigatorToRoot();
+  }
+
+  jumpTo(route: Object) {
+    this.getNavigator()?.jumpTo(route);
+  }
+
+  getNavigator(): Navigator | null {
+    return this.delegate?.getNavigator();
+  }
+
+  displayTicketz(prizeId: number = null): void {
+    if (!this.isTicketzPresented()) {
+      this.delegate?.displayTicketz(prizeId);
+    }
+  }
+
+  isTicketzPresented(): boolean {
+    return this.isRouteDisplayed(TICKETZ);
+  }
+
+  displayTrophyHome() {
+    if (!this.isTrophyHomePresented()) {
+      if (ClientPropertyConstants.getTrophiesPageVersion() === SKZConstants.SHOW_NATIVE_TROPHIES) {
+        NativeNavigation.gotoDestination('Trophies');
+      } else {
+        this.delegate?.displayTrophyHome();
+      }
+    }
+  }
+
+  isTrophyHomePresented(): boolean {
+    return this.isRouteDisplayed(TROPHY_HOME);
+  }
+
+  // returns the first (deepest) matching route
+  getRouteWithName(routeName: string): Route | null {
+    const routes = this.getNavigator()?.getCurrentRoutes() ?? [];
+    return routes.find((route: Route): boolean => {return route.scene === routeName;});
+  }
+
+  getAllRoutesWithName(routeName: string): Route[]{
+    const routes = this.getNavigator()?.getCurrentRoutes() ?? [];
+    return routes.filter((route: Route): boolean => {return route.scene === routeName;});
+  }
+
+  isRouteDisplayed(routeName: string): boolean {
+    const routes = this.getNavigator()?.getCurrentRoutes() ?? [];
+    let isPresented = false;
+    _.some(routes, (route: Route) => {
+      if (route.scene && _.includes(route.scene, routeName)) {
+        isPresented = true;
+      }
+    });
+    return isPresented;
+  }
+
+  isSceneCurrentlyPresented(routeName: string): boolean {
+    const routes = this.getNavigator()?.getCurrentRoutes() ?? [];
+    const scene = _.get(_.last(routes), 'scene');
+    return scene == routeName;
+  }
+
+  isSceneInRoute(routeName: string): boolean {
+    const routes = this.getNavigator()?.getCurrentRoutes() ?? [];
+    const index = _.findIndex(routes, (route): boolean => {
+      const sceneName = _.get(route, 'scene');
+      return sceneName == routeName;
+    });
+
+    return index > -1;
+  }
+
+  checkViewControllerStack(): Promise {
+    if (Platform.OS == 'android') {
+      return this._checkAndroidViewControllerStack();
+    } else {
+      return this._checkiOSViewControllerStack();
+    }
+  }
+
+  _checkAndroidViewControllerStack(): Promise {
+    return new Promise((resolve: (isEmptyStack: boolean) => {}, reject: () => {}) => {
+      SkillzModule.getFragmentBackStackCount((backStackCount: number) => {
+        console.debug('NavigationManager: android backStackCount: ' + backStackCount);
+        resolve(backStackCount == 0);
+      });
+    });
+  }
+
+  _checkiOSViewControllerStack(): Promise {
+    return new Promise((resolve: (isEmptyStack: boolean) => {}, reject: () => {}) => {
+      SKZReactVCManager.getViewControllerStack((errorStack: any, viewControllers: any[]) => {
+        if (viewControllers[viewControllers.length - 1] == "SKZHomeViewController") {
+          SKZReactVCManager.currentVisibleViewHasChildren((errorChildren: any, hasChildren: boolean) => {
+            if (!hasChildren) {
+              SKZReactVCManager.currentVisibleViewHasPresented((errorPresented: any, hasPresented: boolean) => {
+                resolve(!hasPresented);
+              });
+            } else {
+              resolve(false);
+            }
+          });
+        } else {
+          resolve(false);
+        }
+      });
+    });
+  }
+};
+
+let navigationManager = new NavigationManager();
+export {navigationManager as default};
