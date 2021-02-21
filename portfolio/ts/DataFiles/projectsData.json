@@ -18,5 +18,5 @@
     "name" : "Real Estate Database",
     "description" : "A group project that created a CLI written in Java. It connects to PSQL database allowing the user to perform functions like Select, Delete, Insert and Update by making the experience highly interactive and engaging.",
     "id" : 3
-  },
+  }
 ]
