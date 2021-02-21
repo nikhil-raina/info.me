@@ -1,0 +1,22 @@
+[
+  {
+    "name" : "Bhangra",
+    "id" : 0,
+    "role" : "Member"
+  },
+  {
+    "name" : "Math Club",
+    "id" : 1,
+    "role" : "President"
+  },
+  {
+    "name" : "Computer House",
+    "id" : 2,
+    "role" : "Mentor"
+  },
+  {
+    "name" : "JackHammer",
+    "id" : 3,
+    "role" : "Member"
+  }
+]
