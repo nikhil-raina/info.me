@@ -4,12 +4,12 @@
  * @flow
  */
 
-export default class Courses {
+export default class Activity {
   name:              string;
   id:                number;
   role:              string;
 
-  constructor(activity: object) {
+  constructor(activity: Activity) {
     this.id = activity.id;
     this.name = activity.name;
     this.role = activity.role
@@ -24,6 +24,6 @@ export default class Courses {
   }
 
   public getRole() : string {
-    return this.getRole;
+    return this.role;
   }
 }
