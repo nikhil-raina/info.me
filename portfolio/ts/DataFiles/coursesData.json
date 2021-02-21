@@ -1,0 +1,26 @@
+[
+  {
+    "name" : "Algorithms",
+    "id" : 0
+  },
+  {
+    "name" : "Sports",
+    "id" : 1
+  },
+  {
+    "name" : "computer Science",
+    "id" : 2
+  },
+  {
+    "name" : "Shopping",
+    "id" : 3
+  },
+  {
+    "name" : "Maple syrup tasting",
+    "id" : 4
+  },
+  {
+    "name" : "Rolling Club",
+    "id" : 5
+  }
+]
