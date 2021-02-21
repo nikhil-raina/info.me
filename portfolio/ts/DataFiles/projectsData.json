@@ -1,0 +1,22 @@
+[
+  {
+    "name" : "path builder",
+    "description" : "builds a path",
+    "id" : 0
+  },
+  {
+    "name" : "info.me",
+    "description" : "React Native App that aims to create and edit \"self-portfolios\" on the go by adding an extensible amount of  customization in order to personalize the experience of showing yourself o. Used MySQL for data management and Google's Firebase for CI/CD",
+    "id" : 1
+  },
+  {
+    "name" : "cookin time",
+    "description" : "React Native app finally making food wait for you. A collaborative project to enrich the experience of users by allowing them to be able to cook food with the ingredients they have at home and also allow their cooking to get published for a dividend. Used AWS for data management and BeautifulSoup to scrape websites.",
+    "id" : 2
+  },
+  {
+    "name" : "Real Estate Database",
+    "description" : "A group project that created a CLI written in Java. It connects to PSQL database allowing the user to perform functions like Select, Delete, Insert and Update by making the experience highly interactive and engaging.",
+    "id" : 3
+  },
+]
