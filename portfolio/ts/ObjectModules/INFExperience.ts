@@ -30,7 +30,7 @@ export default class Experience {
   job_description!:  string;
   isWorking!:        boolean;
 
-	constructor(exp: object) {
+	constructor(exp: Experience) {
     this.id = exp.id;
     this.job_title = exp.job_title;
     this.employment_type = exp.employment_type;
