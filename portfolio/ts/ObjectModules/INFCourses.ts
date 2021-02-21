@@ -4,11 +4,11 @@
  * @flow
  */
 
-export default class Courses {
+export default class Course {
   name:              string;
   id:                number;
 
-  constructor(course: object) {
+  constructor(course: Course) {
     this.id = course.id;
     this.name = course.name;
   }
