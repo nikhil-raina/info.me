@@ -9,4 +9,4 @@ import LoginScreen from './ts/LoginScreen/LoginScreen';
 import WorkHistoryScreen from './ts/ExtraInformation/WorkHistory/WorkHistoryScreen/WorkHistoryScreen';
 import {name as appName} from './app.json';
 
-AppRegistry.registerComponent(appName, () => WorkHistoryScreen);
+AppRegistry.registerComponent(appName, () => LoginScreen);
