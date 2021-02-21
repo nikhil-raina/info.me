@@ -1,0 +1,32 @@
+[
+  {
+    "name" : "Java",
+    "id" : 0,
+    "rating" : 10
+  },
+  {
+    "name" : "Python",
+    "id" : 1,
+    "rating" : 8
+  },
+  {
+    "name" : "React Native",
+    "id" : 2,
+    "rating" : 6
+  },
+  {
+    "name" : "Jenkins",
+    "id" : 3,
+    "rating" : 0
+  },
+  {
+    "name" : "Public Speaking",
+    "id" : 4,
+    "rating" : 10
+  },
+  {
+    "name" : "Git",
+    "id" : 5,
+    "rating" : 8
+  }
+]
